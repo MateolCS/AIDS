@@ -1,7 +1,7 @@
-import sorter
-class ShellSorter(sorter):
+from sorter import Sorter
+class ShellSorter(Sorter):
     def __init__(self):
-        pass
+        Sorter.__init__(self)
 
     def sort(input):
         pass

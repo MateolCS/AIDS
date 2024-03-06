@@ -1,7 +1,7 @@
-import sorter
-class MergeSorter(sorter):
+from sorter import Sorter
+class MergeSorter(Sorter):
     def __init__(self):
-        pass
+        Sorter.__init__(self)
 
     def sort(input):
         pass

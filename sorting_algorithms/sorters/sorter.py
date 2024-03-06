@@ -1,6 +1,7 @@
 class Sorter:
     def __init__(self):
-        pass
+        self.start_time = 0
+        self.end_time = 0
 
     def sort(input):
         pass

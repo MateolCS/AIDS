@@ -1,7 +1,8 @@
-import sorter
-class HeapSorter(sorter):
+from sorter import Sorter
+
+class HeapSorter(Sorter):
     def __init__(self):
-        pass
+        Sorter.__init__(self)
 
     def sort(input):
         pass
