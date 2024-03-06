@@ -3,5 +3,5 @@ class Sorter:
         self.start_time = 0
         self.end_time = 0
 
-    def sort(input):
+    def sort(self, array):
         pass
