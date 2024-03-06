@@ -3,5 +3,6 @@ class MergeSorter(Sorter):
     def __init__(self):
         Sorter.__init__(self)
 
-    def sort(input):
+    def sort(self, input):
         pass
+        
