@@ -5,3 +5,6 @@ class RecursiveQuickSorter(Sorter):
         
     def sort(self, array):
         pass
+    
+    def get_info(self):
+        return "Recursive quick sorter test suite\n"

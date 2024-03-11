@@ -5,3 +5,6 @@ class IterativeQuickSorter(Sorter):
 
     def sort(self, array):
         pass
+    
+    def get_info(self):
+        return "Iterative quick sorter test suite\n"

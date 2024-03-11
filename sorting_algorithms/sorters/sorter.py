@@ -5,3 +5,9 @@ class Sorter:
 
     def sort(self, array):
         pass
+
+    def get_time(self):
+        return self.end_time - self.start_time
+    
+    def get_info(self):
+        pass

@@ -1,3 +1,5 @@
+from timeit import default_timer as timer
+
 from sorter import Sorter
 
 class HeapSorter(Sorter):
@@ -21,6 +23,7 @@ class HeapSorter(Sorter):
 
 
     def sort(self, array):
+        self.start_time = timer()
         n = len(array)
 
         for i in range(n//2, -1, -1):
@@ -30,4 +33,9 @@ class HeapSorter(Sorter):
             array[i], array[0] = array[0], array[i]
             self.heapify(array, i, 0)
 
+        self.end_time = timer()
+
         return array
+    
+    def get_info(self):
+        return "Heap sorter test suite\n"

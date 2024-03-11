@@ -15,6 +15,3 @@ class VShapeGenerator(Generator):
             nums[i] = 2*(i - n // 2);
         
         return nums
-    
-generator = VShapeGenerator()
-print(generator.generate(20))

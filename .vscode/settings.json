@@ -1,0 +1,6 @@
+{
+    "python.analysis.extraPaths": [
+        "./sorting_algorithms/generators",
+        "./sorting_algorithms/sorters"
+    ]
+}
