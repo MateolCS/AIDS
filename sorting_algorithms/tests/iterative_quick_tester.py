@@ -7,7 +7,7 @@ import numpy as np
 
 from iterative_quick_sorter import IterativeQuickSorter
 
-class RecursiveQuickTester(Tester):
+class IterativeQuickTester(Tester):
     def __init__(self, sorter):
         super().__init__(sorter)
 
