@@ -7,3 +7,4 @@ class ManualHeapTester(ManualTester):
 
 
 tester = ManualHeapTester(HeapSorter)
+tester.test()

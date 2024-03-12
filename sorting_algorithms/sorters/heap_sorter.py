@@ -7,40 +7,37 @@ class HeapSorter(Sorter):
         Sorter.__init__(self)
 
     def heapify(self, array, n, i):
-        #finding the largest element 
-        max_v = i
-        left = 2*i +1
-        right = 2*i +2
+        largest = i  # Initialize largest as root
+        left = 2 * i + 1  # left = 2*i + 1
+        right = 2 * i + 2  # right = 2*i + 2
 
-        if left < n and array[i] < array[left]:
-            max_v = left
+        # See if left child of root exists and is greater than root
+        if left < n and array[left] > array[largest]:
+            largest = left
 
-        if right < n and array[max_v] < array[right]:
-          max_v = right
+        # See if right child of root exists and is greater than largest so far
+        if right < n and array[right] > array[largest]:
+            largest = right
 
-        # If root is not largest, swap with largest and continue heapifying
-        if max_v != i:
-            array[i], array[max_v] = array[max_v], array[i]
-            self.heapify(array, n, max_v)
+        # Change root, if needed
+        if largest != i:
+            array[i], array[largest] = array[largest], array[i]  # swap
+
+            # Heapify the root.
+            self.heapify(array, n, largest)
 
 
-    def sort(self, array):
-        self.start_time = timer()
+    def heap_sort(self, array):
         n = len(array)
 
-        # Build max heap
-        for i in range(n//2, -1, -1):
+        # Build a maxheap.
+        for i in range(n // 2 - 1, -1, -1):
             self.heapify(array, n, i)
-        
-        for i in range(n-1, 0, -1):
-            # Swap
-            array[i], array[0] = array[0], array[i]
-            # Heapify root element
+
+        # One by one extract elements
+        for i in range(n - 1, 0, -1):
+            array[i], array[0] = array[0], array[i]  # swap
             self.heapify(array, i, 0)
-
-        self.end_time = timer()
-
-        return array
     
     def get_info(self):
         return "Heap sorter test suite\n"

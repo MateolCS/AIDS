@@ -65,7 +65,7 @@ class ManualTester():
     def random_test(self, sample_size):
 
         unsorted_list = self.random_generator.generate(sample_size)
-        sorted_list = self.sorter.sort(unsorted_list)
+        sorted_list = self.sorter.sort(unsorted_list.copy())
 
         return f"Time: {self.sorter.get_time()}\n Unsorted list: {unsorted_list}\n Sorted list: {sorted_list}"
     
@@ -79,7 +79,6 @@ class ManualTester():
 
     def vshape_test(self, sample_size):
      
-
         unsorted_list = self.vshape_generator.generate(sample_size)
         sorted_list = self.sorter.sort(unsorted_list.copy())
 
