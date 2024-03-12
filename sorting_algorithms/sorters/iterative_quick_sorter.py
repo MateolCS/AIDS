@@ -1,3 +1,5 @@
+from timeit import default_timer as timer
+
 from sorter import Sorter
 import time
 class IterativeQuickSorter(Sorter):
@@ -24,7 +26,7 @@ class IterativeQuickSorter(Sorter):
 
     def sort(self, array, p, r): 
   
-        self.start = time.time()
+        self.start_time = timer()
 
         size = r - p + 1
         stack = [0] * (size) 
@@ -59,8 +61,11 @@ class IterativeQuickSorter(Sorter):
                 top = top + 1
                 stack[top] = r 
 
-        self.end = time.time()
+        self.end_time = timer()
         return array
 
     def get_info(self):
         return "Iterative quick sort tet suite\n"
+    
+    def get_time(self):
+        return super().get_time()

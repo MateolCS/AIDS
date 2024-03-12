@@ -1,6 +1,8 @@
+from timeit import default_timer as timer
+
 from sorter import Sorter
 import sys
-import time
+
 
 sys.setrecursionlimit(1000000)
 class RecursiveQuickSorter(Sorter):
@@ -8,7 +10,7 @@ class RecursiveQuickSorter(Sorter):
         Sorter.__init__(self)
 
     def sort(self, array, p, r):
-        self.start = time.time()
+        self.start_time = timer()
         if p < r:
 
             q = self.partition(array, p, r)
@@ -16,7 +18,7 @@ class RecursiveQuickSorter(Sorter):
             self.sort(array, p, q - 1)
  
             self.sort(array, q + 1, r)
-        self.end = time.time()
+        self.end_time = timer()
 
         return array
 
@@ -39,3 +41,6 @@ class RecursiveQuickSorter(Sorter):
     
     def get_info(self):
         return "Recursive quick sort tet suite\n"
+    
+    def get_time(self):
+        return super().get_time()

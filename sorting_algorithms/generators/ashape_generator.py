@@ -7,9 +7,10 @@ class AShapeGenerator(Generator):
         super().__init__()
 
     def generate(self, n) -> list:
-        middle = 10*n//2
-        increase = np.arange(middle)
-        decrease = np.arange(middle, 1, -1)
-
-        return np.concatenate((increase, decrease)).tolist()
+        array = []
+        for i in range(n // 2):
+            array.append(2 * i + 1)
+        for i in range(n // 2, n):
+            array.append(2 * (n - i))
+        return array
         
