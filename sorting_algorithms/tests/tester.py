@@ -7,6 +7,7 @@ load_dotenv()
 
 generator_path = os.environ.get('GENRATOR_PATH')
 sorter_path = os.environ.get('SORTER_PATH')
+
 print(generator_path)
 print(sorter_path)
 
