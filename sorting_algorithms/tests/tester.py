@@ -41,7 +41,7 @@ class Tester:
             sorted_list = self.sorter.sort(unsorted_list)
             times.append(self.sorter.get_time())
 
-        return f"Sample size {sample_size}, average time {np.mean(times)}"
+        return f"Sample size {sample_size}, average time {np.mean(times)} deviation: {np.std(times)}"
     
     def ashape_test(self, sample_size):
         times = []
@@ -51,7 +51,7 @@ class Tester:
             sorted_list = self.sorter.sort(unsorted_list)
             times.append(self.sorter.get_time())
 
-        return f"Sample size {sample_size}, average time {np.mean(times)}"
+        return f"Sample size {sample_size}, average time {np.mean(times)} deviation: {np.std(times)}"
 
     def vshape_test(self, sample_size):
         times = []
@@ -61,7 +61,7 @@ class Tester:
             sorted_list = self.sorter.sort(unsorted_list)
             times.append(self.sorter.get_time())
 
-        return f"Sample size {sample_size}, average time {np.mean(times)}"
+        return f"Sample size {sample_size}, average time {np.mean(times)} deviation: {np.std(times)}"
 
     def increasing_test(self, sample_size):
         times = []
@@ -71,7 +71,7 @@ class Tester:
             sorted_list = self.sorter.sort(unsorted_list)
             times.append(self.sorter.get_time())
 
-        return f"Sample size {sample_size}, average time {np.mean(times)}"
+        return f"Sample size {sample_size}, average time {np.mean(times)} deviation: {np.std(times)}"
 
     def decreasing_test(self, sample_size):
         times = []
@@ -81,7 +81,7 @@ class Tester:
             sorted_list = self.sorter.sort(unsorted_list)
             times.append(self.sorter.get_time())
 
-        return f"Sample size {sample_size}, average time {np.mean(times)}"
+        return f"Sample size {sample_size}, average time {np.mean(times)} deviation: {np.std(times)}"
 
 
     def get_test_info(self):
