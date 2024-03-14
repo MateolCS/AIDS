@@ -6,9 +6,8 @@ class MergeSorter(Sorter):
         Sorter.__init__(self)
         self.merge_count = 0
 
-    def sort(self, array):
+    def merge_sorter(self, array):
         self.merge_count = 0
-        self.start_time = timer()
         if len(array) <= 1:
             return array
         
@@ -22,7 +21,6 @@ class MergeSorter(Sorter):
         right_half = self.sort(right_half)
         
         # Merge the sorted halves
-        self.end_time = timer()
         return self.merge(left_half, right_half)
 
     def merge(self, left, right):
@@ -50,6 +48,12 @@ class MergeSorter(Sorter):
             right_index += 1
         
         return result
+    
+    def sort(self, array):
+        self.start_time = timer()
+        sorted_array = self.merge_sorter(array)
+        self.end_time = timer()
+        return sorted_array
     
     def get_info(self):
         return "Merge sorter test suite"
