@@ -30,7 +30,7 @@ class MergeSorter(Sorter):
         
         # Compare elements from both arrays and add the smaller one to the result
         while left_index < len(left) and right_index < len(right):
-            if left[left_index] < right[right_index]:
+            if left[left_index] > right[right_index]:
                 result.append(left[left_index])
                 left_index += 1
             else:

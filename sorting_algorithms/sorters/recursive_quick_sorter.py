@@ -29,7 +29,7 @@ class RecursiveQuickSorter(Sorter):
         i = p - 1
  
         for j in range(p, r):
-            if array[j] <= x:
+            if array[j] >= x:
  
                 i = i + 1
  
