@@ -15,15 +15,14 @@ class RecursiveQuickSorter(Sorter):
 
             q = self.partition(array, p, r)
  
-            self.sort(array, p, q - 1)
+            self.quick_sorter(array, p, q - 1)
  
-            self.sort(array, q + 1, r)
+            self.quick_sorter(array, q + 1, r)
         
 
         return array
 
     def partition(self, array, p, r):
- 
         x = array[r]
  
         i = p - 1
