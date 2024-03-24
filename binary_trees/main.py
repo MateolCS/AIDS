@@ -1,9 +1,5 @@
 from tree import Tree
 
-import numpy as np
-
-n = int(input("Podaj długosc tablicy: \n"))
-input_list = np.random.randint(1, 100, size=n)
-print(f"Wygenerowana lista: {input_list}")
-
-tree = Tree(input_list)
+tree = Tree([1, 2, 4, 8, 16, 32, 64, 128, 256, 512])
+tree.print_tree()
+print(tree.find_max())
