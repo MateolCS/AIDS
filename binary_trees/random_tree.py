@@ -29,14 +29,3 @@ class RandomTree(Tree):
             i += 1
 
         return root
-    
-
-    def print_tree(self):
-        self.get_tree(self.root, 0)
-
-    def get_tree(self, node, level):
-        if node is None:
-            return
-        self.get_tree(node.right, level + 1)
-        print("    " * level + str(node.value))
-        self.get_tree(node.left, level + 1)

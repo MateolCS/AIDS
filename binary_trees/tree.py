@@ -2,21 +2,122 @@ from node import Node
 
 class Tree:
     def __init__(self, array) -> None:
-        self.root = self.build_tree(array)
+        self.root = self.buildTree(array)
 
-    def build_tree(self, array):
+    def buildTree(self, array):
         if len(array) == 0:
             return None
-
+ 
         sorted_array = sorted(array)
-
         mid = len(sorted_array)//2
 
         root = Node(sorted_array[mid])
-        root.left = self.build_tree(sorted_array[:mid])
-        root.right = self.build_tree(sorted_array[mid+1:])
+        root.left = self.buildTree(sorted_array[:mid])
+        root.right = self.buildTree(sorted_array[mid+1:])
 
         return root
+    
+    def get_min(self):
+        current_node = self.root
+        path = []
+        path.append(current_node.value)
+
+        while current_node.left != None:
+            path.append(current_node.value)
+            current_node = current_node.left
+
+        return f'Minimum: {current_node.value}, path: {path}'
+
+    def get_max(self):
+        current_node = self.root
+        path= []
+        path.append(current_node.value)
+        while current_node.right != None:
+            path.append(current_node.value)
+            current_node = current_node.right
+
+        return f'Maxinmum: {current_node.value}, path: {path}'
+
+
+    def traverse_preorder(self, node):
+        if node == None:
+            return
+        
+        print(node.value)
+        self.traverse_preorder(node.left)
+        self.traverse_preorder(node.right)
+
+        
+
+    def traverse_inorder(self, node):
+        if node == None:
+            return
+        
+        self.traverse_inorder(node.left)
+        print(node.value)
+        self.traverse_inorder(node.right)
+
+    def traverse_postorder(self, node):
+        if node == None:
+            return
+        
+        self.traverse_postorder(node.left)
+        self.traverse_postorder(node.right)
+        print(node.value)
+
+    def insert_value(self, root ,value):
+        if root == None:
+            return Node(value)
+        
+        if value > root.value:
+            root.right = self.insert_value(root, value)
+        
+        if value < root.value:
+            root.left = self.insert_value(root, value)
+
+        return root
+
+    def delete(self, node, value):
+        if node is None:
+            return node
+        
+        if value < node.value:
+            node.left = self.delete(node, value)
+        elif value > node.value:
+            node.right = self.delete(node, value)
+        else:
+            if node.left is None:
+                temp = node.right
+                node = None
+                return temp
+            elif node.right is None:
+                temp = node.left
+                node = None
+                return temp
+
+        node.value = self.inorder_successor(node.right)
+        node.right = self.delete(node.right, node.value)
+        
+        return node
+
+    def inorder_successor(self, node):
+        current_node = node.value
+
+        while current_node.left is not None:
+            current_node = node.left
+
+        return current_node
+        
+
+    def rotate_left(self):
+        pass
+
+    def rotate_right(self):
+        pass
+
+    def balance(self):
+        pass
+
     
     def print_tree(self):
         self.get_tree(self.root, 0)
@@ -27,39 +128,3 @@ class Tree:
         self.get_tree(node.right, level + 1)
         print("    " * level + str(node.value))
         self.get_tree(node.left, level + 1)
-
-    
-    def find_min(self):
-        curr_node = self.root
-        path = []
-        while(curr_node.left != None):
-            path.append(curr_node.value)
-            curr_node = curr_node.left
-
-        return f'Minimu: {curr_node.value}, path: {path}'
-    
-    def find_max(self):
-        curr_node = self.root
-        path = []
-
-        while(curr_node.right != None):
-            path.append(curr_node.value)
-            curr_node = curr_node.right
-
-        #return  f'Maximum: {curr_node.value}, path: {path}'
-        return curr_node
-    
-    def get_height(self, root, value, level=0):
-        if root is None:
-            return 0
-        if root.value == value:
-            return level
-        left_level = self.get_height_of_value(root.left, value, level + 1)
-        if left_level != 0:
-            return left_level
-        return self.get_height_of_value(root.right, value, level + 1)
-        
-tree = Tree([1, 2, 4, 8, 16, 32, 64, 128, 256, 512])
-tree.print_tree()
-max_val = tree.find_max()
-print(tree.get_height(tree.root, 32))
