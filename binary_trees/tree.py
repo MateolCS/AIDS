@@ -1,141 +1,234 @@
 from node import Node
+from timeit import default_timer as timer
 
 class Tree:
-    def __init__(self, array) -> None:
-        self.root = self.buildTree(array)
+    def __init__(self, arranew_node) -> None:
+        self.root = self.build_tree(arranew_node)
 
-    def buildTree(self, array):
-        if len(array) == 0:
+    def build_tree(self, arranew_node):
+        if len(arranew_node) == 0:
             return None
  
-        sorted_array = sorted(array)
-        mid = len(sorted_array)//2
+        sorted_arranew_node = sorted(arranew_node)
+        mid = len(sorted_arranew_node)//2
 
-        root = Node(sorted_array[mid])
-        root.left = self.buildTree(sorted_array[:mid])
-        root.right = self.buildTree(sorted_array[mid+1:])
+        root = Node(sorted_arranew_node[mid])
+        root.left = self.build_tree(sorted_arranew_node[:mid])
+        root.right = self.build_tree(sorted_arranew_node[mid+1:])
 
         return root
     
     def get_min(self):
+        start = timer()
         current_node = self.root
         path = []
-        path.append(current_node.value)
 
         while current_node.left != None:
             path.append(current_node.value)
             current_node = current_node.left
-
-        return f'Minimum: {current_node.value}, path: {path}'
+        end = timer()
+        return f'Minimum: {current_node.value}, path: {path} time: {end-start}'
 
     def get_max(self):
-        current_node = self.root
+        start = timer()
+        current_node= self.root
         path= []
-        path.append(current_node.value)
         while current_node.right != None:
             path.append(current_node.value)
             current_node = current_node.right
+        end = timer()
+        return f'Maxinmum: {current_node.value}, path: {path} time: {end-start}'
 
-        return f'Maxinmum: {current_node.value}, path: {path}'
-
-
-    def traverse_preorder(self, node):
-        if node == None:
-            return
+    def get_inorder(self, node):
+        result = []
+        stack = []
+        current_node = node
+    
+        while current_node is not None or len(stack) > 0:
+            while current_node is not None:
+                stack.append(current_node)
+                current_node = current_node.left
+            current_node = stack.pop()
+            result.append(current_node.value)
+            current_node = current_node.right
         
-        print(node.value)
-        self.traverse_preorder(node.left)
-        self.traverse_preorder(node.right)
-
+        return result
+    
+    def get_postorder(self, node):
+        result = []
+        stack = []
+        current_node = node
+    
+        while current_node is not None or len(stack) > 0:
+            while current_node is not None:
+                stack.append(current_node)
+                current_node = current_node.right
+            current_node = stack.pop()
+            result.append(current_node.value)
+            current_node = current_node.left
         
-
-    def traverse_inorder(self, node):
-        if node == None:
-            return
+        return result
+    
+    def get_preorder(self, node):
+        result = []
+        stack = []
+        current_node = node
+    
+        while current_node is not None or len(stack) > 0:
+            while current_node is not None:
+                result.append(current_node.value)
+                stack.append(current_node)
+                current_node = current_node.right
+            current_node = stack.pop()
+            current_node = current_node.left
         
-        self.traverse_inorder(node.left)
-        print(node.value)
-        self.traverse_inorder(node.right)
-
-    def traverse_postorder(self, node):
-        if node == None:
-            return
-        
-        self.traverse_postorder(node.left)
-        self.traverse_postorder(node.right)
-        print(node.value)
+        return result
 
     def insert_value(self, root ,value):
         if root == None:
             return Node(value)
         
         if value > root.value:
-            root.right = self.insert_value(root, value)
+            root.right = self.insert_value(root.right, value)
         
         if value < root.value:
-            root.left = self.insert_value(root, value)
+            root.left = self.insert_value(root.left, value)
 
         return root
 
     def delete(self, node, value):
-        if node is None:
+        if not node:
             return node
         
-        if value < node.value:
-            node.left = self.delete(node, value)
-        elif value > node.value:
-            node.right = self.delete(node, value)
+        if value > node.value:
+            node.right = self.delete(node.right, value)
+        elif value < node.value:
+            node.left = self.delete(node.left, value)
         else:
-            if node.left is None:
-                temp = node.right
-                node = None
-                return temp
-            elif node.right is None:
-                temp = node.left
-                node = None
-                return temp
+            if not node.left:
+                return node.right
+            elif not node.right:
+                return node.left
+            
+            current_node = node.right
+            while current_node.left:
+                current_node = current_node.left
 
-        node.value = self.inorder_successor(node.right)
-        node.right = self.delete(node.right, node.value)
+            node.value = current_node.value
+            node.right = self.delete(node.right, node.value)
         
         return node
-
-    def inorder_successor(self, node):
-        current_node = node.value
-
-        while current_node.left is not None:
-            current_node = node.left
-
-        return current_node
         
 
-    def rotate_left(self, z):
-        y = z.right
-        T2 = y.left
-        y.left = z
-        z.right = T2
-        z.height = 1 + max(self.get_height(z.left),
-                           self.get_height(z.right))
-        y.height = 1 + max(self.get_height(y.left),
-                           self.get_height(y.right))
-        return y
+    def rotate_left(self, node):
+        new_node = node.right
+        temp = new_node.left
+        new_node.left = node
+        node.right = temp
+        node.height = 1 + max(self.get_height(node.left),
+                           self.get_height(node.right))
+        new_node.height = 1 + max(self.get_height(new_node.left),
+                           self.get_height(new_node.right))
+        return new_node
 
-    def rotate_right(self, z):
-        y = z.left
-        T3 = y.right
-        y.right = z
-        z.left = T3
-        z.height = 1 + max(self.get_height(z.left),
-                           self.get_height(z.right))
-        y.height = 1 + max(self.get_height(y.left),
-                           self.get_height(y.right))
-        return y
+    
+    def rotate_right(self, node):
+        new_node = node.left
+        temp = new_node.right
+        new_node.right = node
+        node.left = temp
+        node.height = 1 + max(self.get_height(node.left),
+                           self.get_height(node.right))
+        new_node.height = 1 + max(self.get_height(new_node.left),
+                           self.get_height(new_node.right))
+        return new_node
 
     def balance(self, root):
         if not root:
             return 0
         return self.get_height(root.left) - self.get_height(root.right)
 
+
+    def rebalance(self):
+        start = timer()
+        self.root = self.build_tree(self.get_inorder(self.root))
+        end = timer()
+
+        return end - start
+        
+
+    def count_level(self,value, level=0):
+        current_node = self.root
+
+        while current_node.value != value:
+            if value > current_node.value:
+                current_node = current_node.right
+                level = level + 1
+            elif value < current_node.value:
+                current_node = current_node.left
+                level = level + 1
+
+        return level
+    
+
+    def get_all_level_nodes(self, value):
+        current_node = self.root
+        level = self.count_level(value)
+        all_nodes = self.nodes_at_level(current_node, level)
+        self.delete(self.root, value)
+        return all_nodes
+
+
+    def nodes_at_level(self, root, target_level):
+        if root is None:
+            return []
+
+        queue = [(root, 0)]  # Initialize a queue for level-order traversal
+        result = []
+
+        while queue:
+            node, level = queue.pop(0)  # Dequeue the front node and its level
+
+            if level == target_level:
+                result.append(node.value)
+
+            if node.left:
+                queue.append((node.left, level + 1))
+            if node.right:
+                queue.append((node.right, level + 1))
+
+        return result
+    
+    def find_subtree(self, value):
+        current_node = self.root
+
+        while current_node.value != value:
+            if value > current_node.value:
+                current_node = current_node.right
+            elif value < current_node.value:
+                current_node = current_node.left
+        
+        print(self.get_preorder(current_node))
+
+
+    def delete_postorder(self, node, value):
+        if not node:
+            return None
+
+        node.left = self.delete_postorder(node.left, value)
+        node.right = self.delete_postorder(node.right, value)  
+                
+        if node.value == value:
+            node.left = None
+            node.right = None
+            return None
+
+        return node
+    
+    def find_and_delete(self, value):
+        self.find_subtree(value)
+        self.delete_postorder(self.root, value)
+        
 
     def get_height(self, root):
         if not root:
