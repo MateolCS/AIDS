@@ -176,7 +176,7 @@ class Tree:
         level = self.count_level(value)
         all_nodes = self.nodes_at_level(current_node, level)
         self.delete(self.root, value)
-        return all_nodes
+        return f"Level: {level} nodes: {all_nodes}"
 
 
     def nodes_at_level(self, root, target_level):
@@ -202,13 +202,16 @@ class Tree:
     def find_subtree(self, value):
         current_node = self.root
 
+
         while current_node.value != value:
             if value > current_node.value:
                 current_node = current_node.right
             elif value < current_node.value:
                 current_node = current_node.left
         
+        print(f"Heigth: {self.get_height(current_node)}")
         print(self.get_preorder(current_node))
+
 
 
     def delete_postorder(self, node, value):
@@ -231,9 +234,13 @@ class Tree:
         
 
     def get_height(self, root):
-        if not root:
+        if root is None:
             return 0
-        return root.height
+        
+        left = self.get_height(root.left)
+        right = self.get_height(root.right)
+
+        return max(left, right) +1
 
     
     def print_tree(self):

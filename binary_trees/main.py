@@ -1,7 +1,8 @@
+from random_tree import RandomTree
 from tree import Tree
-
-tree = Tree([1, 2, 4, 8, 16, 32, 64, 128, 256, 512])
+tree = RandomTree([1, 2, 4, 8, 16, 32, 64, 128, 256, 512])
 tree.print_tree()
+print("\n\n")
 # print(tree.get_inorder(tree.root))
 # tree.insert_value(tree.root, 15)
 # tree.print_tree()
@@ -12,6 +13,6 @@ tree.print_tree()
 # tree.print_tree()
 # tree.find_and_delete(2)
 # tree.print_tree()
-print(tree.get_min())
-print(tree.get_max())
-print(tree.rebalance())
+# print(tree.get_min(tree.root))
+# print(tree.get_max(tree.root))
+print(tree.count(64))
