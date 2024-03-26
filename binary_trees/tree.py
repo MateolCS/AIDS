@@ -109,14 +109,38 @@ class Tree:
         return current_node
         
 
-    def rotate_left(self):
-        pass
+    def rotate_left(self, z):
+        y = z.right
+        T2 = y.left
+        y.left = z
+        z.right = T2
+        z.height = 1 + max(self.get_height(z.left),
+                           self.get_height(z.right))
+        y.height = 1 + max(self.get_height(y.left),
+                           self.get_height(y.right))
+        return y
 
-    def rotate_right(self):
-        pass
+    def rotate_right(self, z):
+        y = z.left
+        T3 = y.right
+        y.right = z
+        z.left = T3
+        z.height = 1 + max(self.get_height(z.left),
+                           self.get_height(z.right))
+        y.height = 1 + max(self.get_height(y.left),
+                           self.get_height(y.right))
+        return y
 
-    def balance(self):
-        pass
+    def balance(self, root):
+        if not root:
+            return 0
+        return self.get_height(root.left) - self.get_height(root.right)
+
+
+    def get_height(self, root):
+        if not root:
+            return 0
+        return root.height
 
     
     def print_tree(self):
