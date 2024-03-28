@@ -6,46 +6,13 @@ from node import Node
 from timeit import default_timer as timer
 class RandomTree(Tree):
     def __init__(self, array) -> None:
-        self.root = self.test(array)
+        self.root = self.build_tree(array)
 
     def build_tree(self, array):
-        if not array:
-            return None
-
         root = Node(array[0])
-        queue = [root]
+        for i in range(1, len(array)):
+            self.insert_value(root, array[i])
 
-        i = 1
-        while i < len(array):
-            current_node = queue.pop(0)
-
-            # Add left child if available
-            if i < len(array) and array[i] is not None:
-                current_node.left = Node(array[i])
-                queue.append(current_node.left)
-            i += 1
-
-            # Add right child if available
-            if i < len(array) and array[i] is not None:
-                current_node.right = Node(array[i])
-                queue.append(current_node.right)
-            i += 1
-
-        return root
-    
-    def test(self, array):
-        root = Node(array.pop(0))
-        current_node = root
-
-        while len(array) != 0:
-            turn = random.randint(0, 1)
-            if turn == 0:
-                current_node.left = Node(array.pop(0))
-                current_node = current_node.left
-            elif turn == 1:
-                current_node.right = Node(array.pop(0))
-                current_node = current_node.right
-        
         return root
 
 

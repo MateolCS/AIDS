@@ -1,6 +1,6 @@
 from node import Node
 from timeit import default_timer as timer
-
+import math
 class Tree:
     def __init__(self, arranew_node) -> None:
         self.root = self.build_tree(arranew_node)
@@ -54,7 +54,7 @@ class Tree:
         
         return result
     
-    def get_postorder(self, node):
+    def get_decreasing(self, node):
         result = []
         stack = []
         current_node = node
@@ -67,6 +67,18 @@ class Tree:
             result.append(current_node.value)
             current_node = current_node.left
         
+        return result
+    
+    def get_postorder(self, node):
+        result = []
+
+        def traverse(node):
+            if node:
+                traverse(node.left)
+                traverse(node.right)
+                result.append(node.value)
+
+        traverse(node)
         return result
     
     def get_preorder(self, node):
@@ -241,6 +253,48 @@ class Tree:
         right = self.get_height(root.right)
 
         return max(left, right) +1
+    
+    def all_right(self, prime):
+        counter = 0
+        placeholder = prime.right
+        while placeholder:
+            if placeholder.left:
+                placeholder2 = placeholder
+                placeholder = placeholder.left
+                placeholder2.left = placeholder.right
+                placeholder.right = placeholder2
+                prime.right = placeholder
+            else:
+                counter += 1
+                prime = placeholder
+                placeholder = placeholder.right
+        return counter
+
+
+    def handle_turn(self, prime, m):
+        placeholder = prime.right
+        for i in range(m):
+            placeholder2 = placeholder
+            placeholder = placeholder.right
+            prime.right = placeholder
+            placeholder2.right = placeholder.left
+            placeholder.left = placeholder2
+            prime = placeholder
+            placeholder = placeholder.right
+    
+    def correct_balance(self, start):
+        time_start = timer()
+        prime = Node(0)
+        prime.right = start
+        count = self.all_right(prime)
+        h = int(math.log2(count + 1))
+        m = pow(2, h) - 1
+        self.handle_turn(prime, count - m)
+        for m in [m // 2 ** i for i in range(1, h + 1)]:
+            self.handle_turn(prime, m)
+        time_end = timer()
+        print(f"Execution time: {time_end-time_start}")
+        return prime.right
 
     
     def print_tree(self):

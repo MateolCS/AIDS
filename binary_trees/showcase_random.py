@@ -31,14 +31,14 @@ class Showcase:
                 print(tree.get_all_level_nodes(val))
                 tree.print_tree()
             elif choice.upper() == "I":
-                print(tree.get_postorder(tree.root))
+                print(tree.get_decreasing(tree.root))
             elif choice.upper() == "U":
                 val = int(input("Podaj wartosc"))
                 tree.find_and_delete(val)
                 tree.print_tree()
             elif choice.upper() == "R":
                 print(tree.get_preorder(tree.root))
-                print(tree.rebalance())
+                tree.root = tree.correct_balance(tree.root)
                 print(tree.get_preorder(tree.root))
                 tree.print_tree()
             elif choice.upper() == "Q":
