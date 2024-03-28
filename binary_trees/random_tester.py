@@ -32,7 +32,7 @@ class BSTTester:
             for _ in range(10):
                 tree = RandomTree(self.generator.generate(test_size))
                 start = timer()
-                tree.get_min()
+                tree.get_min(tree.node)
                 end = timer()
                 times.append(end-start)
             print(f"Elements: {test_size}, execution time: {np.mean(times)} deviation: {np.std(times)}")
