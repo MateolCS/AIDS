@@ -22,7 +22,7 @@ class BSTTester:
                 tree = Tree(self.generator.generate(test_size))
                 end = timer()
                 times.append(end-start)
-            print(f"Elements: {test_size}, execution time: {np.mean(times)}")
+            print(f"Elements: {test_size}, execution time: {np.mean(times)} deviation: {np.std(times)}")
         print("-----------------------------------------\n")
     
     def find_minimum_test(self):
@@ -35,7 +35,7 @@ class BSTTester:
                 tree.get_min()
                 end = timer()
                 times.append(end-start)
-            print(f"Elements: {test_size}, execution time: {np.mean(times)}")
+            print(f"Elements: {test_size}, execution time: {np.mean(times)} deviation: {np.std(times)}")
         print("-----------------------------------------\n")
 
     def balance_tree_test(self):
@@ -48,7 +48,7 @@ class BSTTester:
                 tree.correct_balance(tree.root)
                 end = timer()
                 times.append(end-start)
-            print(f"Elements: {test_size}, execution time: {np.mean(times)}")
+            print(f"Elements: {test_size}, execution time: {np.mean(times)} deviation: {np.std(times)}")
         print("-----------------------------------------\n")
 
 tester = BSTTester()
