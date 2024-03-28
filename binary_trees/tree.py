@@ -283,7 +283,6 @@ class Tree:
             placeholder = placeholder.right
     
     def correct_balance(self, start):
-        time_start = timer()
         prime = Node(0)
         prime.right = start
         count = self.all_right(prime)
@@ -292,8 +291,6 @@ class Tree:
         self.handle_turn(prime, count - m)
         for m in [m // 2 ** i for i in range(1, h + 1)]:
             self.handle_turn(prime, m)
-        time_end = timer()
-        print(f"Execution time: {time_end-time_start}")
         return prime.right
 
     

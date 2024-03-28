@@ -1,9 +1,10 @@
-
-import random
+import sys
 from tree import Tree
 from node import Node
 
 from timeit import default_timer as timer
+
+sys.setrecursionlimit(200000)
 class RandomTree(Tree):
     def __init__(self, array) -> None:
         self.root = self.build_tree(array)
