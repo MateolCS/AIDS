@@ -41,7 +41,6 @@ class RandomTree(Tree):
     
 
     def get_min(self, node):
-        start = timer()
         if node is None:
             return None, []
 
@@ -66,8 +65,7 @@ class RandomTree(Tree):
             current_path.pop()
 
         dfs(node, [])
-        end = timer()
-        return f"Minimum: {minimum}, path: {path}, time: {end-start}"
+        return minimum
     
     def get_max(self, node):
         start = timer()
@@ -95,8 +93,7 @@ class RandomTree(Tree):
             current_path.pop()
 
         dfs(node, [])
-        end = timer()
-        return f"Maximum: {maximum}, path: {path}, time: {end-start}"
+        return maximum
     
     def count_level(self,value, level=0):
         current_node = self.root
