@@ -7,14 +7,17 @@ def build_adjacency_matrix(in_v, arcs):
 
     return adjacency_matrix
 
-def build_consequent_list(arcs):
+def build_consequent_list(in_v, arcs):
     consequent_list = {}
 
+    for i in range(in_v):
+        consequent_list[i] = []
+
+    #print(f"Przed appendem {consequent_list}")
     for start, end in arcs:
-        if start in consequent_list.keys():
-            consequent_list[start].append(end)
-        else:
-            consequent_list[start] = [end]
+        consequent_list[start].append(end)
+
+    #print(f"Przed appendem {consequent_list}")
     
     return consequent_list
 

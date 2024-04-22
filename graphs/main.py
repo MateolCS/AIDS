@@ -1,10 +1,11 @@
 import utils
 import getter
-
+import sorts
 dim, vertices, arcs = getter.read_data(r'graphs\input.txt')
-print(utils.build_consequent_list(arcs))
-print(dim[0])
 matrix = utils.build_adjacency_matrix(dim[0], arcs)
 
-for row in matrix:
-    print(row)
+d = utils.build_consequent_list(dim[0], arcs)
+
+print(f"dict {d}")
+#print(sorts.kahn_ms(dim[0], matrix))
+print(sorts.kahn_ln(d))

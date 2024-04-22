@@ -5,7 +5,7 @@ def get_data():
     vertices =[]
     arcs = []
 
-    while len(vertices) < V:
+    for _ in range(E):
         v1, v2 = list(map(int, input().split(" ")))
 
         if v1 not in vertices:
