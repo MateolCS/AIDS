@@ -1,87 +1,38 @@
-def tarjan_ms(in_v, in_matrix, start_vertex=None):
-    visited = [False] * in_v
-    temp_mark = [False] * in_v
-    stack = []
-    
-    def dfs(v):
-        if temp_mark[v]:
-            print("Graf zawiera cykl. Sortowanie niemożliwe.")
-            raise Exception("Graf zawiera cykl")
-        if not visited[v]:
-            visited[v] = True
-            temp_mark[v] = True
-            for i in range(in_v):
-                if in_matrix[v][i] == 1:
-                    dfs(i)
-            temp_mark[v] = False
-            stack.append(v)
-
-    # Jeśli użytkownik nie poda wierzchołka startowego, znajdź wierzchołek o zerowym stopniu wejściowym
-    if start_vertex is None:
-        in_degrees = [0] * in_v
-        for i in range(in_v):
-            for j in range(in_v):
-                in_degrees[j] += in_matrix[i][j]
-        # Wyszukaj wierzchołek z zerowym stopniem wejściowym
-        start_vertex = next((index for index, degree in enumerate(in_degrees) if degree == 0), None)
-        # Jeśli nie ma wierzchołka z zerowym stopniem wejściowym, może to oznaczać, że w grafie jest cykl
-        if start_vertex is None:
-            print("Graf może zawierać cykl lub nie posiada wierzchołka z zerowym stopniem wejściowym.")
-            return []
-    
-    # Rozpocznij DFS z wybranego wierzchołka
-    dfs(start_vertex)
-    
-    # Kontynuuj DFS dla pozostałych nieodwiedzonych wierzchołków
-    for v in range(in_v):
-        if not visited[v]:
-            dfs(v)
-
-    stack.reverse()  # Odwracamy stos, aby uzyskać prawidłową kolejność topologiczną
-    return stack
-
-
-def tarjan_ln(graph, start_vertex=None):
-    in_v = len(graph)  # Liczba wierzchołków
-    visited = [False] * in_v
-    temp_mark = [False] * in_v
+def tarjan_ln(in_matrix):
+    visited = {key: False for key in in_matrix}
     stack = []
 
     def dfs(v):
-        if temp_mark[v]:
-            print("Graf zawiera cykl. Sortowanie niemożliwe.")
-            raise Exception("Graf zawiera cykl")
-        if not visited[v]:
-            visited[v] = True
-            temp_mark[v] = True
-            for i in graph[v]:  # Przechodzimy przez wszystkich następników wierzchołka v
+        visited[v] = True
+        for neighbor in in_matrix.get(v, []):
+            if not visited[neighbor]:
+                dfs(neighbor)
+        stack.append(v)
+
+    for vertex in in_matrix:
+        if not visited[vertex]:
+            dfs(vertex)
+
+    return stack[::-1] 
+
+
+def tarjan_ms(adj_matrix):
+    n = len(adj_matrix)
+    visited = [False] * n
+    stack = []
+
+    def dfs(v):
+        visited[v] = True
+        for i in range(n):
+            if adj_matrix[v][i] and not visited[i]:
                 dfs(i)
-            temp_mark[v] = False
-            stack.append(v)
+        stack.append(v)
 
-    # Jeśli użytkownik nie poda wierzchołka startowego, znajdź wierzchołek o zerowym stopniu wejściowym
-    if start_vertex is None:
-        in_degrees = [0] * in_v
-        for successors in graph.values():
-            for j in successors:
-                in_degrees[j] += 1
-        # Wyszukaj wierzchołek z zerowym stopniem wejściowym
-        start_vertex = next((index for index, degree in enumerate(in_degrees) if degree == 0), None)
-        # Jeśli nie ma wierzchołka z zerowym stopniem wejściowym, może to oznaczać, że w grafie jest cykl
-        if start_vertex is None:
-            print("Graf może zawierać cykl lub nie posiada wierzchołka z zerowym stopniem wejściowym.")
-            return []
+    for i in range(n):
+        if not visited[i]:
+            dfs(i)
 
-    # Rozpocznij DFS z wybranego wierzchołka
-    dfs(start_vertex)
-
-    # Kontynuuj DFS dla pozostałych nieodwiedzonych wierzchołków
-    for v in range(in_v):
-        if not visited[v]:
-            dfs(v)
-
-    stack.reverse()  # Odwracamy stos, aby uzyskać prawidłową kolejność topologiczną
-    return stack
+    return stack[::-1]
 
 
 
