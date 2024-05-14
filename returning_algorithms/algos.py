@@ -1,83 +1,69 @@
+import utils
+
 def robert_flores_ms(adj_matrix):
-    num_vertices = len(adj_matrix)
-    dp = [[0] * (1 << num_vertices) for _ in range(num_vertices)]
+    def dfs(v, O, Path, start, visited, k):
+        O[v] = True
+        visited[0] += 1
+        for i in range(len(adj_matrix)):
+            if adj_matrix[v][i] == 1:
+                if i == start and visited[0] == len(O):
+                    return True
+                if not O[i]:
+                    if dfs(i, O, Path, start, visited, k):
+                        Path[k[0]] = v
+                        k[0] += 1
+                        return True
+        O[v] = False
+        visited[0] -= 1
+        return False
 
-    # Initialize the base case
-    for i in range(num_vertices):
-        dp[i][1 << i] = 1
-
-    # Iterate over all subsets of vertices
-    for mask in range(1, 1 << num_vertices):
-        for i in range(num_vertices):
-            if mask & (1 << i):
-                for j in range(num_vertices):
-                    if mask & (1 << j) and adj_matrix[j][i] and i != j:
-                        dp[i][mask] += dp[j][mask ^ (1 << i)]
-
-    # Find the last vertex in the cycle
-    last_vertex = -1
-    for i in range(num_vertices):
-        if dp[i][(1 << num_vertices) - 1] > 0:
-            last_vertex = i
-            break
-
-    # Reconstruct the cycle
-    if last_vertex == -1:
-        print("Cykl nie istnieje")
-        return
-
-    cycle = [last_vertex]
-    mask = (1 << num_vertices) - 1
-    while mask != 0:
-        for i in range(num_vertices):
-            if adj_matrix[i][last_vertex] and (mask & (1 << i)) and dp[i][mask ^ (1 << last_vertex)] > 0:
-                cycle.append(i)
-                mask ^= (1 << last_vertex)
-                last_vertex = i
-                break
-
-    print("Cykl Hamiltona:", cycle)
+    n = len(adj_matrix)
+    O = [False] * n
+    Path = [0] * n
+    start = 0
+    visited = [0]
+    k = [1]
+    if dfs(start, O, Path, start, visited, k):
+        Path.append(Path[0])
+        return f"Cykl istnieje: {Path[:k[0]]}"
+    else:
+        return f"Cykl nie istnieje"
 
 
-def robert_flores_ln(successor_list):
-    num_vertices = len(successor_list)
-    dp = [[0] * (1 << num_vertices) for _ in range(num_vertices)]
+def hamiltonian(v, graph, visited, path, start):
+    visited[v] = True
+    visited_count = sum(visited.values())
+    
+    for i in graph[v]:
+        if i == start and visited_count == len(graph):
+            return True
+        
+        if not visited[i]:
+            if hamiltonian(i, graph, visited, path, start):
+                path.append(v)
+                return True
+                
+    visited[v] = False
+    return False
 
-    # Initialize the base case
-    for i in range(num_vertices):
-        dp[i][1 << i] = 1
+def Hcycle(graph, n):
+    visited = {v: False for v in range(1, n+1)}
+    path = [0] * (n + 1)
+    path[1] = start = 1
+    visited_count = 0
+    
+    if hamiltonian(start, graph, visited, path, start):
+        return True, path[::-1]
+    else:
+        return False, []
 
-    # Iterate over all subsets of vertices
-    for mask in range(1, 1 << num_vertices):
-        for i in range(num_vertices):
-            if mask & (1 << i):
-                for j in successor_list[i]:
-                    if mask & (1 << j) and i != j:
-                        dp[i][mask] += dp[j][mask ^ (1 << i)]
+def robert_flores_ln(graph, n):
+    found, hamiltonian_cycle = Hcycle(graph, n)
+    if found:
+        return f"Znaleziono cykl Hamiltona: {hamiltonian_cycle[1:]}"
+    else:
+        return "Nie znaleziono cyklu Hamiltona."
 
-    # Find the last vertex in the cycle
-    last_vertex = -1
-    for i in range(num_vertices):
-        if dp[i][(1 << num_vertices) - 1] > 0:
-            last_vertex = i
-            break
-
-    # Reconstruct the cycle
-    if last_vertex == -1:
-        print("Cykl nie istnieje")
-        return
-
-    cycle = [last_vertex]
-    mask = (1 << num_vertices) - 1
-    while mask != 0:
-        for i in successor_list[last_vertex]:
-            if mask & (1 << i) and dp[i][mask ^ (1 << last_vertex)] > 0:
-                cycle.append(i)
-                mask ^= (1 << last_vertex)
-                last_vertex = i
-                break
-
-    print("Cykl Hamiltona:", cycle)
 
 def fury_ms(adj_matrix):
     num_vertices = len(adj_matrix)
@@ -170,3 +156,13 @@ def fury_ln(successor_list):
     # Print the Eulerian cycle
     print("Cykl Eulera:", euler_cycle)
     return euler_cycle
+
+g_v_1 = 5
+a_l_1 = [(0, 1), (0, 2), (1, 2), (2, 3), (2, 4), (3, 4)]
+g_v_3 = 5
+a_l_3 = [(0, 1), (0, 2), (2, 3), (2, 4), (3, 4)]
+g_v_2 = 5
+a_l_2 = [(0, 1), (0, 2), (1, 2), (2, 3), (2, 4), (3, 4), (4, 1)]
+
+matrix = utils.build_adjacency_matrix(g_v_1, a_l_1)
+print(fury_ms(matrix))
