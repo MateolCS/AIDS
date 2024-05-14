@@ -53,9 +53,7 @@ while True:
             else:
                 print("Nie nie, ze mną tak nie")
     if(choice.lower() == 'k'):
-        print("Podaj ścieżkę do pliku z którego chcesz wczytać dane: ")
-        file_path = input()
-        dim,  vertices, arcs = getter.get_data(file_path)
+        dim,  vertices, arcs = getter.get_data()
         while True:
             print("Wybierz co chcesz zrobić: ")
             print("KM - khan macierz prawdopodobieństwa")
