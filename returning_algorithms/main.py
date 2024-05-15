@@ -1,6 +1,6 @@
 import utils
 import getter
-import sorts
+import algos
 
 while True:
     print("Podaj czy chcesz działać na grafie wczytanym z pliku, czy z klawiatury: ")
@@ -21,17 +21,17 @@ while True:
 
             if algo == "rm":
                 matrix = utils.build_adjacency_matrix(dim[0], arcs)
-                print(sorts.kahn_ms(dim[0], matrix))
+                print(algos.robert_flores_ms(matrix))
             elif algo == "rl":
                 consequent_list = utils.build_consequent_list(dim[0], arcs)
-                print(sorts.kahn_ln(consequent_list))
+                print(algos.robert_flores_ln(consequent_list, dim[0]))
 
             elif algo == "fm":
                 matrix = utils.build_adjacency_matrix(dim[0], arcs)
-
+                print(algos.fury_ms(matrix))
             elif algo == "fl":
                 consequent_list = utils.build_consequent_list(dim[0], arcs)
-                
+                print(algos.fury_ln(consequent_list))
             else:
                 print("Nie nie, ze mną tak nie")
     if(choice.lower() == 'k'):
@@ -46,17 +46,17 @@ while True:
 
             if algo == "rm":
                 matrix = utils.build_adjacency_matrix(dim[0], arcs)
-                print(sorts.kahn_ms(dim[0], matrix))
+                print(algos.robert_flores_ms(matrix))
             elif algo == "rl":
                 consequent_list = utils.build_consequent_list(dim[0], arcs)
-                print(sorts.kahn_ln(consequent_list))
+                print(algos.robert_flores_ln(consequent_list, dim[0]))
 
             elif algo == "fm":
                 matrix = utils.build_adjacency_matrix(dim[0], arcs)
-
+                print(algos.fury_ms(matrix))
             elif algo == "fl":
                 consequent_list = utils.build_consequent_list(dim[0], arcs)
-                
+                print(algos.fury_ln(consequent_list))
             else:
                 print("Nie nie, ze mną tak nie")
     else:

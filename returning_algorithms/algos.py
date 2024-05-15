@@ -4,15 +4,16 @@ def robert_flores_ms(adj_matrix):
     def dfs(v, O, Path, start, visited, k):
         O[v] = True
         visited[0] += 1
+        if visited[0] == len(O):
+            return adj_matrix[v][start] == 1  # Check if there's an edge to the starting vertex
+
         for i in range(len(adj_matrix)):
-            if adj_matrix[v][i] == 1:
-                if i == start and visited[0] == len(O):
+            if adj_matrix[v][i] == 1 and not O[i]:
+                if dfs(i, O, Path, start, visited, k):
+                    Path[k[0]] = v
+                    k[0] += 1
                     return True
-                if not O[i]:
-                    if dfs(i, O, Path, start, visited, k):
-                        Path[k[0]] = v
-                        k[0] += 1
-                        return True
+
         O[v] = False
         visited[0] -= 1
         return False
@@ -156,13 +157,3 @@ def fury_ln(successor_list):
     # Print the Eulerian cycle
     print("Cykl Eulera:", euler_cycle)
     return euler_cycle
-
-g_v_1 = 5
-a_l_1 = [(0, 1), (0, 2), (1, 2), (2, 3), (2, 4), (3, 4)]
-g_v_3 = 5
-a_l_3 = [(0, 1), (0, 2), (2, 3), (2, 4), (3, 4)]
-g_v_2 = 5
-a_l_2 = [(0, 1), (0, 2), (1, 2), (2, 3), (2, 4), (3, 4), (4, 1)]
-
-matrix = utils.build_adjacency_matrix(g_v_1, a_l_1)
-print(fury_ms(matrix))
