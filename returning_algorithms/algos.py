@@ -47,10 +47,10 @@ def hamiltonian(v, graph, visited, path, start):
     visited[v] = False
     return False
 
-def Hcycle(graph, n):
-    visited = {v: False for v in range(1, n+1)}
+def Hcycle(graph, n, start):
+    visited = {v: False for v in range(n+1)}  # Include 0 to n
     path = [0] * (n + 1)
-    path[1] = start = 1
+    path[1] = start
     visited_count = 0
     
     if hamiltonian(start, graph, visited, path, start):
@@ -59,7 +59,7 @@ def Hcycle(graph, n):
         return False, []
 
 def robert_flores_ln(graph, n):
-    found, hamiltonian_cycle = Hcycle(graph, n)
+    found, hamiltonian_cycle = Hcycle(graph, n, 0)
     if found:
         return f"Znaleziono cykl Hamiltona: {hamiltonian_cycle[1:]}"
     else:
@@ -133,7 +133,7 @@ def fury_ln(successor_list):
     # Choose the starting vertex arbitrarily
     start_vertex = list(successor_list.keys())[0]
 
-    # Inner function to find the Eulerian cycle
+    # Function to find the Eulerian cycle
     def find_euler_cycle(vertex):
         while successor_copy[vertex]:
             # Choose the next vertex
@@ -147,6 +147,28 @@ def fury_ln(successor_list):
 
         # Add the current vertex to the Eulerian cycle
         euler_cycle.append(vertex)
+
+    # Function to check if there's a loop
+    def has_loop(vertex):
+        visited = set()
+        stack = [(vertex, None)]
+
+        while stack:
+            v, parent = stack.pop()
+            visited.add(v)
+
+            for neighbor in successor_copy[v]:
+                if neighbor not in visited:
+                    stack.append((neighbor, v))
+                elif neighbor != parent:
+                    return True
+
+        return False
+
+    # Check for loops
+    if has_loop(start_vertex):
+        print("Graf zawiera cykl!")
+        return []
 
     # Find the Eulerian cycle
     find_euler_cycle(start_vertex)
