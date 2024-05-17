@@ -45,14 +45,18 @@ def robert_test(in_values, densities):
     
     for value in in_values:
         times= []
-        for i in range(9):
-
-            dim, edge_list = generate_graph(value, densities[i])
-            start = timer()
-            adjacency_matrix = utils.build_adjacency_matrix(dim[0], edge_list)
-            algos.robert_flores_ms(adjacency_matrix)
-            end = timer()
-            times.append(end-start)
+        for _ in range(10):
+            density_times = []
+            for density in densities:
+                for _ in range(10):
+                    dim, edge_list = generate_graph(value, density)
+                    start = timer()
+                    matrix = utils.build_adjacency_matrix(dim[0], edge_list)
+                    algos.robert_flores_ms(matrix)
+                    end = timer()
+                    density_times.append(end-start)
+            times.append(np.mean(density_times))
+        
         
         print(f"Elements: {value}, execution time: {np.mean(times)} deviation: {np.std(times)}\n")
     print("---------------------------------------------------------------------------------------------------------")
@@ -61,14 +65,17 @@ def fury_test(in_values, densities):
 
     for value in in_values:
         times= []
-        for i in range(9):
-
-            dim, edge_list = generate_graph(value, densities[i])
-            start = timer()
-            matrix = utils.build_adjacency_matrix(dim[0], edge_list)
-            algos.fury_ms(matrix)
-            end = timer()
-            times.append(end-start)
+        for _ in range(10):
+            density_times = []
+            for density in densities:
+                for _ in range(10):
+                    dim, edge_list = generate_graph(value, density)
+                    start = timer()
+                    matrix = utils.build_adjacency_matrix(dim[0], edge_list)
+                    algos.fury_ms(matrix)
+                    end = timer()
+                    density_times.append(end-start)
+            times.append(np.mean(density_times))
         
         print(f"Elements: {value}, execution time: {np.mean(times)} deviation: {np.std(times)}\n")
     print("---------------------------------------------------------------------------------------------------------")
