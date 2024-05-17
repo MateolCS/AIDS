@@ -44,7 +44,6 @@ k = 1500
 def robert_test(in_values, densities):
     
     for value in in_values:
-        times= []
         for _ in range(10):
             density_times = []
             for density in densities:
@@ -55,16 +54,14 @@ def robert_test(in_values, densities):
                     algos.robert_flores_ms(matrix)
                     end = timer()
                     density_times.append(end-start)
-            times.append(np.mean(density_times))
+            print(f"Elements: {value}, density {density} execution time: {np.mean(density_times)} deviation: {np.std(density_times)}\n")
         
         
-        print(f"Elements: {value}, execution time: {np.mean(times)} deviation: {np.std(times)}\n")
     print("---------------------------------------------------------------------------------------------------------")
 
 def fury_test(in_values, densities):
 
     for value in in_values:
-        times= []
         for _ in range(10):
             density_times = []
             for density in densities:
@@ -75,9 +72,8 @@ def fury_test(in_values, densities):
                     algos.fury_ms(matrix)
                     end = timer()
                     density_times.append(end-start)
-            times.append(np.mean(density_times))
-        
-        print(f"Elements: {value}, execution time: {np.mean(times)} deviation: {np.std(times)}\n")
+            print(f"Elements: {value}, density {density} execution time: {np.mean(density_times)} deviation: {np.std(density_times)}\n")
+    
     print("---------------------------------------------------------------------------------------------------------")
 
 
