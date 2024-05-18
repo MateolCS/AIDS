@@ -72,6 +72,7 @@ def hamiltonian_cycle(graph):
     if not hamilton_util(graph, path, 1):
         print("Graf wejściowy nie zawiera cyklu Hamiltona.")
         return
+    return "Znalazłem"
 
 
 def hamiltonian(v, graph, visited, path, start):
