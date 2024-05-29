@@ -71,3 +71,4 @@ def brute_force_knapsack(capacity, weights, values, n):
     
     max_value, included_items = knapsack_recursive(0, capacity)
     return max_value, included_items
+
