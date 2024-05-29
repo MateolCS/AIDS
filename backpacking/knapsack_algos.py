@@ -46,6 +46,28 @@ def knapsack_greedy(capacity, weights, values, n):
             break
     
     return total_value, included_items
-def knapsack_brootforce():
-    pass
 
+def brute_force_knapsack(capacity, weights, values, n):
+    def knapsack_recursive(index, remaining_capacity):
+        if index == n or remaining_capacity == 0:
+            return 0, []
+
+        # Exclude the current item
+        exclude_value, exclude_items = knapsack_recursive(index + 1, remaining_capacity)
+
+        # Include the current item (if it fits)
+        include_value = 0
+        include_items = []
+        if weights[index] <= remaining_capacity:
+            include_value, include_items = knapsack_recursive(index + 1, remaining_capacity - weights[index])
+            include_value += values[index]
+            include_items = include_items + [(weights[index], values[index])]
+        
+        # Return the better of the two choices
+        if include_value > exclude_value:
+            return include_value, include_items
+        else:
+            return exclude_value, exclude_items
+    
+    max_value, included_items = knapsack_recursive(0, capacity)
+    return max_value, included_items
