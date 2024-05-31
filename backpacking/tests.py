@@ -23,6 +23,29 @@ def generate_knapsack_problem(n):
     return sizes, values, capacity
 
 
+def test_knapsack(max_items, max_capacity, algo):
+
+    time_matrix = [[0 for _ in range(max_capacity + 1)] for _ in range(max_items + 1)]
+
+    for num_items in range(1, max_items + 1):
+        values = [random.randint(1, 100) for _ in range(num_items)]
+        weights = [random.randint(1, 100) for _ in range(num_items)]
+
+        for capacity in range(1, max_capacity + 1):
+            start_time = timer()
+            algo(capacity, weights, values, num_items)
+            end_time = timer()
+            execution_time = end_time - start_time
+            time_matrix[num_items][capacity] = execution_time
+    
+    return time_matrix
+
+def print_matrix(matrix):
+    for row in matrix:
+        print("\t".join(map(str, row)))
+
+
+
 def test():
     for i in range(1000, 10000, 1000):
         sizes, values, capacity = generate_knapsack_problem(i)
@@ -34,4 +57,10 @@ def test():
         test_algo(knapsack_algos.brute_force_knapsack, sizes, values, capacity, i)
 
 
-test()
+#test()
+
+max_items = 10
+max_capacity = 10
+
+result_matrix = test_knapsack(max_items, max_capacity, knapsack_algos.knapsack_dynamic)
+print_matrix(result_matrix)
