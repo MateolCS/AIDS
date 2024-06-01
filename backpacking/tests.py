@@ -23,6 +23,36 @@ def generate_knapsack_problem(n):
     return sizes, values, capacity
 
 
+def test_knapsack_vary_items(max_items, capacity, algo):
+    time_matrix = [0 for _ in range(max_items + 1)]
+
+    for num_items in range(1, max_items + 1):
+        values = [random.randint(1, 100) for _ in range(num_items)]
+        weights = [random.randint(1, 100) for _ in range(num_items)]
+
+        start_time = timer()
+        algo(capacity, weights, values, num_items)
+        end_time = timer()
+        execution_time = end_time - start_time
+        time_matrix[num_items] = execution_time
+    
+    return time_matrix
+
+def test_knapsack_vary_capacity(num_items, max_capacity, algo):
+    time_matrix = [0 for _ in range(max_capacity + 1)]
+
+    values = [random.randint(1, 100) for _ in range(num_items)]
+    weights = [random.randint(1, 100) for _ in range(num_items)]
+
+    for capacity in range(1, max_capacity + 1):
+        start_time = timer()
+        algo(capacity, weights, values, num_items)
+        end_time = timer()
+        execution_time = end_time - start_time
+        time_matrix[capacity] = execution_time
+    
+    return time_matrix
+
 def test_knapsack(max_items, max_capacity, algo):
 
     time_matrix = [[0 for _ in range(max_capacity + 1)] for _ in range(max_items + 1)]
@@ -41,8 +71,11 @@ def test_knapsack(max_items, max_capacity, algo):
     return time_matrix
 
 def print_matrix(matrix):
-    for row in matrix:
-        print("\t".join(map(str, row)))
+    if isinstance(matrix[0], list):  
+        for row in matrix:
+            print("\t".join(map(str, row)))
+    else:  
+        print("\t".join(map(str, matrix)))
 
 
 
@@ -57,10 +90,29 @@ def test():
         test_algo(knapsack_algos.brute_force_knapsack, sizes, values, capacity, i)
 
 
+def new_test():
+    algorithms = [knapsack_algos.knapsack_dynamic, knapsack_algos.knapsack_greedy, knapsack_algos.brute_force_knapsack]
+
+    # Test varying number of items for a fixed capacity
+    fixed_capacity = 1000
+    max_items = 100
+    for algo in algorithms:
+        print(f"Testing {algo.__name__} with varying number of items (fixed capacity {fixed_capacity}):")
+        time_matrix = test_knapsack_vary_items(max_items, fixed_capacity, algo)
+        print_matrix(time_matrix)
+
+    # Test varying capacities for a fixed number of items
+    fixed_items = 50
+    max_capacity = 1000
+    for algo in algorithms:
+        print(f"Testing {algo.__name__} with varying capacities (fixed items {fixed_items}):")
+        time_matrix = test_knapsack_vary_capacity(fixed_items, max_capacity, algo)
+        print_matrix(time_matrix)
+
 #test()
+new_test()
+# max_items = 10
+# max_capacity = 10
 
-max_items = 10
-max_capacity = 10
-
-result_matrix = test_knapsack(max_items, max_capacity, knapsack_algos.knapsack_dynamic)
-print_matrix(result_matrix)
+# result_matrix = test_knapsack(max_items, max_capacity, knapsack_algos.knapsack_dynamic)
+# print_matrix(result_matrix)
